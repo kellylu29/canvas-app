@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",
+    "@emotion/babel-preset-css-prop": "^11.2.0",
+    "@emotion/react": "^11.9.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@svgr/webpack": "^5.5.0",
     "@testing-library/jest-dom": "^5.16.4",
@@ -133,7 +135,14 @@
   },
   "babel": {
     "presets": [
-      "react-app"
+      "react-app",
+      "@emotion/babel-preset-css-prop"
+    ],
+    "plugins": [
+      "@emotion"
     ]
+  },
+  "devDependencies": {
+    "@emotion/babel-plugin": "^11.9.2"
   }
 }
