@@ -59,11 +59,23 @@ function App() {
     attr.startX = e.clientX - attr.offsetX;
     attr.startY = e.clientY - attr.offsetY;
 
-    for (let i = 0; i < shapes.length; i++) {
-      // If more than one shape is selected, return early and allow 
-      // all the selected shapes be draggable via `handleMouseDrag`
-      if (selectedShapes.length > 1) return;
+    // If more than one shape is selected while a shape is being clicked,
+    // return early and allow all the selected shapes be draggable via `handleMouseDrag`
+    if (selectedShapes.length > 1) {
+      // find the shape the mouse is clicking, if it's not clicking a shape then
+      // move onto the loop below
+      const onShape = shapes.find(s => isMouseOnShape(attr.startX, attr.startY, s));
 
+      if (onShape && onShape.isSelected) return;
+    }
+
+    if (e.shiftKey) {
+      selectedShapes.map(s => {
+        updatedShapes[s.index].isSelected = true;
+      });
+    }
+
+    for (let i = 0; i < shapes.length; i++) {
       const shape = shapes[i];
 
       if (isMouseOnShape(attr.startX, attr.startY, shape)) {
@@ -73,10 +85,12 @@ function App() {
         setShape(updatedShapes);
         redrawAll(updatedShapes, context);
       } else {
-        updatedShapes[i].isSelected = e.shiftKey ? true : false;
-
-        setShape(updatedShapes);
-        redrawAll(updatedShapes, context);
+        if (!e.shiftKey) {
+          updatedShapes[i].isSelected = false;
+  
+          setShape(updatedShapes);
+          redrawAll(updatedShapes, context);
+        }
       }
     }
   };
