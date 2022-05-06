@@ -159,11 +159,11 @@ function App() {
 
   const handleChangeProperty = e => {
     updatedShapes.filter(s => s.isSelected).map(({ index }) => {
-      if (e.target.id === 'radius') updatedShapes[index].radius = e.target.value;
-      if (e.target.id === 'width') updatedShapes[index].width = e.target.value;
-      if (e.target.id === 'height') updatedShapes[index].height = e.target.value;
-      if (e.target.id === 'circle-color') updatedShapes[index].circleColor = e.target.value;
-      if (e.target.id === 'rect-color') updatedShapes[index].rectColor = e.target.value;
+      if (e.target.id === `radius-${index}`) updatedShapes[index].radius = e.target.value;
+      if (e.target.id === `width-${index}`) updatedShapes[index].width = e.target.value;
+      if (e.target.id === `height-${index}`) updatedShapes[index].height = e.target.value;
+      if (e.target.id === `circle-color-${index}`) updatedShapes[index].circleColor = e.target.value;
+      if (e.target.id === `rect-color-${index}`) updatedShapes[index].rectColor = e.target.value;
 
       setShape(updatedShapes);
       redrawAll(updatedShapes, context);
@@ -198,12 +198,13 @@ function App() {
             {s.type === 'circle' && (
               <div>
                 <div css={classes.input}>
-                  <label htmlFor='radius' css={classes.label}>radius</label>
-                  <input ref={slider} id="radius" type="range" min="0" max="200" defaultValue={s.radius} />
+                  <label htmlFor={`radius-${s.index}`} css={classes.label}>radius</label>
+                  <input ref={slider} id={`radius-${s.index}`} type="range" min="0" max="200" defaultValue={s.radius} />
                 </div>
+                {selectedShapes.m}
                 <div css={classes.input}>
-                  <label htmlFor="circle-color" css={classes.label}>color</label>
-                  <input ref={colorPicker} type="color" id="circle-color" />
+                  <label htmlFor={`circle-color-${s.index}`} css={classes.label}>color</label>
+                  <input ref={colorPicker} type="color" id={`circle-color-${s.index}`} />
                 </div>
               </div>
             )}
@@ -211,17 +212,17 @@ function App() {
               <div>
                 <div css={classes.sliders}>
                   <div css={classes.input}>
-                    <label htmlFor='width' css={classes.label}>width</label>
-                    <input ref={widthSlider} id="width" type="range" min="0" max="500" defaultValue={s.width} />
+                    <label htmlFor={`width-${s.index}`} css={classes.label}>width</label>
+                    <input ref={widthSlider} id={`width-${s.index}`} type="range" min="0" max="500" defaultValue={s.width} />
                   </div>
                   <div css={classes.input}>
-                    <label htmlFor='height' css={classes.label}>height</label>
-                    <input ref={heightSlider} id="height" type="range" min="0" max="500" defaultValue={s.height} />
+                    <label htmlFor={`height-${s.index}`} css={classes.label}>height</label>
+                    <input ref={heightSlider} id={`height-${s.index}`} type="range" min="0" max="500" defaultValue={s.height} />
                   </div>
                 </div>
                 <div css={classes.input}>
-                  <label htmlFor="rect-color" css={classes.label}>color</label>
-                  <input ref={colorPicker} type="color" id="rect-color" />
+                  <label htmlFor={`rect-color-${s.index}`} css={classes.label}>color</label>
+                  <input ref={colorPicker} type="color" id={`rect-color-${s.index}`} />
                 </div>
               </div>
             )}
