@@ -21,6 +21,8 @@ function App() {
     startY: 0,
   }
 
+  // create a new array to mutate on the containing objects otherwise
+  // react does not see changes to nested properties of objects in an array
   const updatedShapes = [...shapes];
   const selectedShapes = shapes.filter(s => s.isSelected);
 
