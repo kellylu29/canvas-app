@@ -72,17 +72,12 @@ function App() {
       if (isMouseOnShape(attr.startX, attr.startY, shape)) {
         updatedShapes[i].isHovered = false;
         updatedShapes[i].isSelected = shape.isSelected ? false : true;
-
-        setShape(updatedShapes);
-        redrawAll(updatedShapes, context);
       } else {
-        if (!e.shiftKey) {
-          updatedShapes[i].isSelected = false;
-  
-          setShape(updatedShapes);
-          redrawAll(updatedShapes, context);
-        }
+        if (!e.shiftKey) updatedShapes[i].isSelected = false;
       }
+
+      setShape(updatedShapes);
+      redrawAll(updatedShapes, context);
     }
   };
 
@@ -189,7 +184,7 @@ function App() {
                 {selectedShapes.m}
                 <div css={classes.input}>
                   <label htmlFor={`circle-color-${s.index}`} css={classes.label}>color</label>
-                  <input type="color" id={`circle-color-${s.index}`} onInput={(e) => handleChangeProperty(e, s.index, 'circleColor')} />
+                  <input type="color" id={`circle-color-${s.index}`} defaultValue={s.circleColor} onInput={(e) => handleChangeProperty(e, s.index, 'circleColor')} />
                 </div>
               </div>
             )}
@@ -207,7 +202,7 @@ function App() {
                 </div>
                 <div css={classes.input}>
                   <label htmlFor={`rect-color-${s.index}`} css={classes.label}>color</label>
-                  <input type="color" id={`rect-color-${s.index}`} onInput={(e) => handleChangeProperty(e, s.index, 'rectColor')} />
+                  <input type="color" id={`rect-color-${s.index}`} defaultValue={s.rectColor} onInput={(e) => handleChangeProperty(e, s.index, 'rectColor')} />
                 </div>
               </div>
             )}
