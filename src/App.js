@@ -7,10 +7,6 @@ function App() {
   const [shapes, setShape] = useState([]);
 
   const canvas = useRef(null);
-  const slider = useRef(null);
-  const widthSlider = useRef(null);
-  const heightSlider = useRef(null);
-  const colorPicker = useRef(null);
 
   let context, domRect;
 
@@ -40,13 +36,6 @@ function App() {
 
     canvas.current.addEventListener('mousedown', handleMouseDown);
     canvas.current.addEventListener('mousemove', handleMouseHover);
-
-    if (selectedShapes.length > 0) {
-      if (slider.current) slider.current.addEventListener('change', handleChangeProperty);
-      if (widthSlider.current) widthSlider.current.addEventListener('change', handleChangeProperty);
-      if (heightSlider.current) heightSlider.current.addEventListener('change', handleChangeProperty);
-      if (colorPicker.current) colorPicker.current.addEventListener('input', handleChangeProperty);
-    }
 
     return () => {
       canvas.current.removeEventListener('mousedown', handleMouseDown);
@@ -106,10 +95,9 @@ function App() {
     updatedShapes.filter(s => s.isSelected).map(({ index }) => {
       updatedShapes[index].x += dx;
       updatedShapes[index].y += dy;
-  
-      setShape(updatedShapes);
     });
 
+    setShape(updatedShapes);
     redrawAll(updatedShapes, context);
 
     attr.startX = mouseX;
@@ -159,17 +147,12 @@ function App() {
     redrawAll(s, context);
   }
 
-  const handleChangeProperty = e => {
+  const handleChangeProperty = (e, i, prop) => {
     updatedShapes.filter(s => s.isSelected).map(({ index }) => {
-      if (e.target.id === `radius-${index}`) updatedShapes[index].radius = e.target.value;
-      if (e.target.id === `width-${index}`) updatedShapes[index].width = e.target.value;
-      if (e.target.id === `height-${index}`) updatedShapes[index].height = e.target.value;
-      if (e.target.id === `circle-color-${index}`) updatedShapes[index].circleColor = e.target.value;
-      if (e.target.id === `rect-color-${index}`) updatedShapes[index].rectColor = e.target.value;
-
-      setShape(updatedShapes);
-      redrawAll(updatedShapes, context);
+      if (i === index) updatedShapes[index][prop] = e.target.value;
     });
+    setShape(updatedShapes);
+    redrawAll(updatedShapes, context);
   }
 
   return (
@@ -201,12 +184,12 @@ function App() {
               <div>
                 <div css={classes.input}>
                   <label htmlFor={`radius-${s.index}`} css={classes.label}>radius</label>
-                  <input ref={slider} id={`radius-${s.index}`} type="range" min="0" max="200" defaultValue={s.radius} />
+                  <input id={`radius-${s.index}`} type="range" min="0" max="200" defaultValue={s.radius} onChange={(e) => handleChangeProperty(e, s.index, 'radius')}/>
                 </div>
                 {selectedShapes.m}
                 <div css={classes.input}>
                   <label htmlFor={`circle-color-${s.index}`} css={classes.label}>color</label>
-                  <input ref={colorPicker} type="color" id={`circle-color-${s.index}`} />
+                  <input type="color" id={`circle-color-${s.index}`} onInput={(e) => handleChangeProperty(e, s.index, 'circleColor')} />
                 </div>
               </div>
             )}
@@ -215,16 +198,16 @@ function App() {
                 <div css={classes.sliders}>
                   <div css={classes.input}>
                     <label htmlFor={`width-${s.index}`} css={classes.label}>width</label>
-                    <input ref={widthSlider} id={`width-${s.index}`} type="range" min="0" max="500" defaultValue={s.width} />
+                    <input id={`width-${s.index}`} type="range" min="0" max="500" defaultValue={s.width} onChange={(e) => handleChangeProperty(e, s.index, 'width')} />
                   </div>
                   <div css={classes.input}>
                     <label htmlFor={`height-${s.index}`} css={classes.label}>height</label>
-                    <input ref={heightSlider} id={`height-${s.index}`} type="range" min="0" max="500" defaultValue={s.height} />
+                    <input id={`height-${s.index}`} type="range" min="0" max="500" defaultValue={s.height} onChange={(e) => handleChangeProperty(e, s.index, 'height')} />
                   </div>
                 </div>
                 <div css={classes.input}>
                   <label htmlFor={`rect-color-${s.index}`} css={classes.label}>color</label>
-                  <input ref={colorPicker} type="color" id={`rect-color-${s.index}`} />
+                  <input type="color" id={`rect-color-${s.index}`} onInput={(e) => handleChangeProperty(e, s.index, 'rectColor')} />
                 </div>
               </div>
             )}
