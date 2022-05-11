@@ -144,7 +144,9 @@ function App() {
 
   const handleChangeProperty = (e, i, prop) => {
     updatedShapes.filter(s => s.isSelected).map(({ index }) => {
-      if (i === index) updatedShapes[index][prop] = e.target.value;
+      const newValue = prop.match(/radius|width|height/) ? parseInt(e.target.value) : e.target.value;
+
+      if (i === index) updatedShapes[index][prop] = newValue;
     });
     setShape(updatedShapes);
     redrawAll(updatedShapes, context);
