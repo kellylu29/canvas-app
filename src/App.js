@@ -183,7 +183,6 @@ function App() {
                   <label htmlFor={`radius-${s.index}`} css={classes.label}>radius</label>
                   <input id={`radius-${s.index}`} type="range" min="0" max="200" defaultValue={s.radius} onChange={(e) => handleChangeProperty(e, s.index, 'radius')}/>
                 </div>
-                {selectedShapes.m}
                 <div css={classes.input}>
                   <label htmlFor={`circle-color-${s.index}`} css={classes.label}>color</label>
                   <input type="color" id={`circle-color-${s.index}`} defaultValue={s.circleColor} onInput={(e) => handleChangeProperty(e, s.index, 'circleColor')} />
